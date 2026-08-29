@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Receipt Scanner Laboratory</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <h1>Receipt Scanner Laboratory</h1>
+        <p>Multi-frame capture, multiple processing variants, OCR consensus, and subtotal reconciliation. <strong>v8-single-best-grader</strong></p>
+      </div>
+      <div class="topbar-actions">
+        <button id="startBtn" class="primary">Start camera</button>
+        <button id="stopBtn">Stop</button>
+      </div>
+    </header>
+
+    <section class="card">
+      <div class="camera-stage">
+        <video id="video" playsinline autoplay muted></video>
+        <canvas id="previewOverlay"></canvas>
+        <div id="guidance" class="guidance">Camera inactive</div>
+      </div>
+
+      <div class="metric-grid">
+        <div><span>Receipt</span><strong id="receiptScore">—</strong></div>
+        <div><span>Sharpness</span><strong id="sharpnessScore">—</strong></div>
+        <div><span>Glare</span><strong id="glareScore">—</strong></div>
+        <div><span>Stability</span><strong id="stabilityScore">—</strong></div>
+        <div><span>Capture API</span><strong id="captureApi">—</strong></div>
+      </div>
+
+      <div class="controls">
+        <label><input type="checkbox" id="autoCapture" checked /> Auto-capture</label>
+        <label><input type="checkbox" id="runOcrAfterCapture" /> Run OCR after preprocessing</label>
+        <button id="manualCaptureBtn">Capture now</button>
+        <button id="resetBtn">Reset result</button>
+        <button id="storeReadingBtn">Store reading</button>
+        <button id="clearReadingsBtn">Clear stored</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="result-header">
+        <h2>Captured result</h2>
+        <div class="topbar-actions">
+          <label class="overlay-toggle"><input type="checkbox" id="showOcrOverlay" checked /> Show OCR values</label>
+          <a id="downloadImageLink" download="receipt-capture.jpg">Download image</a>
+        </div>
+      </div>
+
+      <div id="emptyState" class="empty-state">No capture yet.</div>
+
+      <div id="capturedWrap" class="captured-wrap hidden">
+        <img id="capturedImage" alt="Captured receipt" />
+        <canvas id="resultOverlay"></canvas>
+      </div>
+
+      <section id="ocrPanel" class="hidden">
+        <div class="summary-banner">
+          Each scan captures 3 frames and creates 3 variants per frame, for up to 9 OCR interpretations.
+        </div>
+
+        <div class="ocr-status-row">
+          <h3>OCR and reconciliation</h3>
+          <div class="topbar-actions">
+            <button id="runOcrBtn" type="button">Run OCR now</button>
+            <strong id="ocrStatus">Waiting</strong>
+          </div>
+        </div>
+        <progress id="ocrProgress" max="100" value="0"></progress>
+
+        <div class="metric-grid four">
+          <div><span>Chosen variant</span><strong id="chosenVariant">—</strong></div>
+          <div><span>Item sum</span><strong id="itemSum">—</strong></div>
+          <div><span>Subtotal</span><strong id="subtotalValue">—</strong></div>
+          <div><span>Difference</span><strong id="subtotalDiff">—</strong></div>
+        </div>
+
+        <div id="reconcileBanner" class="reconcile-banner">No OCR result yet.</div>
+
+        <section class="subsection">
+          <div class="subsection-header">
+            <h4>Number consensus</h4>
+          </div>
+          <div id="comparisonSummary" class="comparison-summary">No stored readings yet.</div>
+          <div id="comparisonTable" class="comparison-table"></div>
+        </section>
+
+        <details open>
+          <summary>Parsed receipt lines</summary>
+          <div id="parsedLines" class="parsed-lines"></div>
+        </details>
+
+        <details>
+          <summary>Processing variants</summary>
+          <div id="variantGallery" class="variant-gallery"></div>
+        </details>
+
+        <details>
+          <summary>Raw OCR text</summary>
+          <pre id="ocrText"></pre>
+        </details>
+      </section>
+    </section>
+
+    <section class="card">
+      <div class="result-header">
+        <h2>Debug Console</h2>
+        <div class="topbar-actions">
+          <button id="copyDebugBtn">Copy log</button>
+          <button id="clearDebugBtn">Clear log</button>
+        </div>
+      </div>
+      <pre id="debugLog">=== Receipt Scanner Laboratory ===
+</pre>
+    </section>
+
+    <canvas id="analysisCanvas" class="hidden"></canvas>
+    <canvas id="captureCanvas" class="hidden"></canvas>
+
+    <script type="module" src="./app.js"></script>
+  </main>
+</body>
+</html>
