@@ -12,7 +12,7 @@
     <header class="topbar">
       <div>
         <h1>Receipt Scanner Laboratory</h1>
-        <p>Single-best-frame capture, OCR preprocessing, Gemini receipt extraction, and subtotal reconciliation. <strong>v9-gemini-ocr</strong></p>
+        <p>Single-best-frame capture, OCR preprocessing, Gemini receipt extraction, and subtotal reconciliation. <strong>v9.1-gemini-key-ui</strong></p>
       </div>
       <div class="topbar-actions">
         <button id="startBtn" class="primary">Start camera</button>
@@ -43,6 +43,22 @@
         <button id="storeReadingBtn">Store reading</button>
         <button id="clearReadingsBtn">Clear stored</button>
       </div>
+    </section>
+
+    <section class="card" id="geminiKeySetupCard">
+      <div class="result-header">
+        <div>
+          <h2>Gemini API key</h2>
+          <p class="preprocess-note">The key is not stored in GitHub. Save it only in this browser, or paste it each time.</p>
+        </div>
+        <strong id="geminiKeySetupStatus">No key saved</strong>
+      </div>
+      <div class="controls" style="margin-top:12px">
+        <input id="geminiKeySetupInput" type="password" autocomplete="off" spellcheck="false" placeholder="Paste Gemini API key" aria-label="Gemini API key" style="flex:1 1 320px;min-width:0;padding:10px 12px;border:1px solid #334155;border-radius:10px;background:#020617;color:#f8fafc" />
+        <button id="geminiKeySetupSave" class="primary" type="button">Save on this device</button>
+        <button id="geminiKeySetupForget" type="button">Forget key</button>
+      </div>
+      <p style="margin:10px 0 0;color:#94a3b8;font-size:.88rem">After capturing a receipt, the Gemini OCR controls and results will appear in the Captured result section below.</p>
     </section>
 
     <section class="card">
@@ -126,6 +142,7 @@
 
     <script type="module" src="./app.js"></script>
     <script type="module" src="./gemini_ui.js"></script>
+    <script type="module" src="./gemini_key.js"></script>
   </main>
 </body>
 </html>
