@@ -12,7 +12,7 @@
     <header class="topbar">
       <div>
         <h1>Receipt Scanner Laboratory</h1>
-        <p>Multi-frame capture, multiple processing variants, OCR consensus, and subtotal reconciliation. <strong>v8-single-best-grader</strong></p>
+        <p>Single-best-frame capture, OCR preprocessing, Gemini receipt extraction, and subtotal reconciliation. <strong>v9-gemini-ocr</strong></p>
       </div>
       <div class="topbar-actions">
         <button id="startBtn" class="primary">Start camera</button>
@@ -37,7 +37,7 @@
 
       <div class="controls">
         <label><input type="checkbox" id="autoCapture" checked /> Auto-capture</label>
-        <label><input type="checkbox" id="runOcrAfterCapture" /> Run OCR after preprocessing</label>
+        <label><input type="checkbox" id="runOcrAfterCapture" /> Run local Tesseract after preprocessing</label>
         <button id="manualCaptureBtn">Capture now</button>
         <button id="resetBtn">Reset result</button>
         <button id="storeReadingBtn">Store reading</button>
@@ -63,13 +63,13 @@
 
       <section id="ocrPanel" class="hidden">
         <div class="summary-banner">
-          Each scan captures 3 frames and creates 3 variants per frame, for up to 9 OCR interpretations.
+          Each scan grades multiple high-resolution candidates, selects the strongest single receipt image, and creates OCR-ready variants. Gemini OCR uses the selected processed image without storing your API key in GitHub.
         </div>
 
         <div class="ocr-status-row">
-          <h3>OCR and reconciliation</h3>
+          <h3>Local OCR and reconciliation</h3>
           <div class="topbar-actions">
-            <button id="runOcrBtn" type="button">Run OCR now</button>
+            <button id="runOcrBtn" type="button">Run local Tesseract</button>
             <strong id="ocrStatus">Waiting</strong>
           </div>
         </div>
@@ -82,7 +82,7 @@
           <div><span>Difference</span><strong id="subtotalDiff">—</strong></div>
         </div>
 
-        <div id="reconcileBanner" class="reconcile-banner">No OCR result yet.</div>
+        <div id="reconcileBanner" class="reconcile-banner">No local OCR result yet.</div>
 
         <section class="subsection">
           <div class="subsection-header">
@@ -103,7 +103,7 @@
         </details>
 
         <details>
-          <summary>Raw OCR text</summary>
+          <summary>Raw local OCR text</summary>
           <pre id="ocrText"></pre>
         </details>
       </section>
@@ -125,6 +125,7 @@
     <canvas id="captureCanvas" class="hidden"></canvas>
 
     <script type="module" src="./app.js"></script>
+    <script type="module" src="./gemini_ui.js"></script>
   </main>
 </body>
 </html>
